@@ -5,7 +5,6 @@ import { useLogin } from "../hooks/useAuth";
 import { Link } from "react-router-dom";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
@@ -15,7 +14,7 @@ import {
 
 
 
-export const LoginForm = ({...props}) => {
+export const LoginForm = () => {
   const {register, handleSubmit, errors, isSubmitting, onSubmit, error} = useLogin()
   return (
     <Card className="w-full max-w-sm">

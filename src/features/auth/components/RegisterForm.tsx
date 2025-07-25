@@ -14,7 +14,7 @@ import {
 
 
 
-export const RegisterForm = ({...props}) => {
+export const RegisterForm = () => {
   const {register, handleSubmit, errors, isSubmitting, onSubmit, error, usernameError} = useRegister()
   return (
     <Card className="w-full max-w-sm">
