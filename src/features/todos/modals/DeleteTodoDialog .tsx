@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Trash2 } from "lucide-react"
-import { useDeleteTodo } from "../hooks/useTodo"
 
 export function DeleteTodoDialog({
     todoId,

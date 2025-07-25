@@ -1,4 +1,3 @@
-import type { TodoItemProps } from "@/types/todo";
 import { Button } from "@/components/ui/button";
 import {Files} from "lucide-react" 
 import { Check } from "lucide-react";

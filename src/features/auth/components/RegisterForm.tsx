@@ -5,7 +5,6 @@ import { useRegister } from "../hooks/useAuth";
 import { Link } from "react-router-dom";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardFooter,

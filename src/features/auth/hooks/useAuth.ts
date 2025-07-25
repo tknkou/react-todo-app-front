@@ -5,7 +5,6 @@ import { login, register as registerUser } from "../service/authService";
 import { useState } from "react";
 import { z } from "zod";
 import { useNavigate } from "react-router-dom";
-import { id } from "date-fns/locale";
 
 export const useLogin = () => {
   const [error, setError] = useState<string | null>(null);

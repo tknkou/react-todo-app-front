@@ -1,6 +1,5 @@
 import z from "zod";
 import { loginParamsSchema, registerParamSchema, authResponseSchema } from "../schemas/authSchema";
-import { mockUsers } from "@/mocks/users";
 
 const API_URL = import.meta.env.VITE_API_URL
 

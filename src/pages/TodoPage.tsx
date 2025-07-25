@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import TodoList from "@/features/todos/modals/TodoList";
 import { useTodoContext } from "@/contexts/TodoContext";
-import { todo } from "node:test";
 
 export default function TodoPage(){
   const {todos, fetchAllTodos} = useTodoContext();

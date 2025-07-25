@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { mockUsers } from "@/mocks/users";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

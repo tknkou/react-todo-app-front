@@ -1,6 +1,6 @@
 
 import {todosResponseSchema, todoResponseSchema } from "../schema/TodoSchema";
-import type { SearchTodoParams, TodoResponse, CreateTodoParams, UpdateTodoParams, Todo,  } from "../schema/TodoSchema";
+import type { SearchTodoParams, TodoResponse, CreateTodoParams, UpdateTodoParams,  } from "../schema/TodoSchema";
 import queryString from "query-string";
 import { dummyTodos } from "@/mocks/users";
 
