@@ -17,7 +17,7 @@ export const serchTodoSchema = z.object({
     })
     .optional(),
 
-  status: z.enum(["in_progress", "completed", "deleted"])
+  status: z.enum(["in_progress", "completed"])
   .optional()
   .refine(val => val !== undefined, {
     message: "select a status",
@@ -38,7 +38,7 @@ export const createTodoSchema = z.object({
     })
     .optional(),
 
-  status: z.enum(["in_progress", "completed", "deleted"], {
+  status: z.enum(["in_progress", "completed"], {
     message: "select a status"
   })
 })
@@ -55,7 +55,7 @@ export const updateTodoSchema = z.object({
     })
     .optional(),
 
-  status: z.enum(["in_progress", "completed", "deleted"])
+  status: z.enum(["in_progress", "completed"])
   .optional()
   .refine(val => val !== undefined, {
     message: "select a status",
@@ -75,7 +75,7 @@ export const todoResponseSchema = z.object({
   user_id: z.string().min(1).max(50),
   title: z.string().min(1).max(50),
   description: z.string().max(100).nullable(),
-  status: z.enum(["in_progress", "completed", "deleted"]),
+  status: z.enum(["in_progress", "completed"]),
   due_date: z.string().nullable(),
   completed_at: z.string().nullable(),
   created_at: z.string().datetime(),
@@ -91,7 +91,7 @@ export interface Todo {
     userId: string;
     title: string;
     description?: string;
-    status: "in_progress" | "completed" | "deleted";
+    status: "in_progress" | "completed" ;
     dueDate?: Date | null;
     completedAt?: Date | null;
     createdAt: Date;

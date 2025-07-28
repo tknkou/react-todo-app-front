@@ -51,13 +51,12 @@ export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
   const updateTodo = async (updatedTodo: Todo) => {
     const todoId = updatedTodo.id
     const params: UpdateTodoParams = {
-      title: updatedTodo.title,
-      description: updatedTodo.description ?? undefined,
+      title:updatedTodo.title.trim(),
+      description: updatedTodo.description?.trim() ?? undefined,
       due_date: updatedTodo.dueDate ? updatedTodo.dueDate.toISOString().slice(0, 10) : undefined,
       status: updatedTodo.status,
       completed_at: updatedTodo.completedAt ? updatedTodo.completedAt.toISOString().slice(0, 10) : undefined,
     }
-
     try {
       const response = await updateTodoAPI(todoId, params)
       const newTodo = convertToTodo(response)
