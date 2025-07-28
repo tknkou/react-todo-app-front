@@ -46,7 +46,7 @@ export const dummyTodos: TodoResponse[] = [
     user_id: "mock-user-id-admin",
     title: "管理者レポート提出",
     description: "週次レポート",
-    status: "deleted",
+    status: "in_progress",
     due_date: null,
     completed_at: null,
     created_at: "2025-07-01T08:30:00.000Z",
