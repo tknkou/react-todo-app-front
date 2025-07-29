@@ -3,6 +3,8 @@ import { useUpdateTodo } from "../hooks/useTodo";
 import { useDeleteTodo } from "../hooks/useTodo";
 import type { Todo } from "../schema/TodoSchema";
 import { LogoutButton } from "@/shared/button/LogoutButton";
+import { SearchTodoDialog } from "./SearchTodoDialog";
+
 type Props = {
     todos: Todo[]
 }
@@ -18,6 +20,9 @@ export default function TodoList({ todos }: Props) {
                 <div className="flex flex-col md:flex-row md:justify-between md:items-center items-start pl-10 gap-2 md:px-50 mt-4">
                     <h1 className="text-lg font-semibold">Hello, {username}</h1>
                     <LogoutButton/>
+                </div>
+                <div className="px-5 md:px-45">
+                    <SearchTodoDialog/>
                 </div>
 
             {/* カンバンボード */}

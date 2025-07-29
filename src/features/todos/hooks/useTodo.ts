@@ -1,8 +1,8 @@
 import { useState } from "react"; 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type{ CreateTodoParams, UpdateTodoParams, Todo } from "../schema/TodoSchema";
-import { createTodoSchema, updateTodoSchema,} from "../schema/TodoSchema";
+import type{ CreateTodoParams, UpdateTodoParams, Todo, SearchTodoParams } from "../schema/TodoSchema";
+import { createTodoSchema, updateTodoSchema, searchTodoSchema} from "../schema/TodoSchema";
 import { useTodoContext } from "@/contexts/TodoContext";
 
 export const useCreateTodo = (onSuccess?:()=>void) =>{
@@ -170,5 +170,51 @@ export const useUpdateTodo = () => {
     handleDelete, // 呼び出し元が使う関数
     isDeleting,   // 削除中かどうか
     error         // 削除エラー（任意）
+  };
+};
+
+export const useSearchTodo = () => {
+  const { fetchTodosWithFilters, fetchAllTodos} = useTodoContext(); // フィルター取得関数（必要に応じて作成）
+  const [error, setError] = useState<string | null>(null);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    control,
+    formState: { errors, isSubmitting },
+  } = useForm<SearchTodoParams>({
+    resolver: zodResolver(searchTodoSchema),
+  });
+
+  const onSubmit = async (input: SearchTodoParams) => {
+    try {
+      const filters = {
+        title: input.title || undefined,
+        description: input.description || undefined,
+        status: input.status || undefined,
+        completed: input.completed || undefined,
+        dueDate_from: input.dueDate_from || undefined,
+        dueDate_to: input.dueDate_to || undefined,
+      };
+      await fetchTodosWithFilters(filters); // 🔍 任意のAPI呼び出し
+    } catch (err) {
+      console.error("検索に失敗しました", err);
+      setError("検索に失敗しました");
+    }
+  };
+
+  return {
+    fetchAllTodos,
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    control,
+    onSubmit,
+    errors,
+    isSubmitting,
+    error,
   };
 };

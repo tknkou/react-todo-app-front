@@ -39,10 +39,15 @@ export const getAllTodo = async (): Promise<TodoResponse[]> =>{
 
 export const getTodosWithFilters = async (params: SearchTodoParams): Promise<TodoResponse[]> => {
   const token = localStorage.getItem("access-token")
-  const query = queryString.stringify(params);
+  const query = queryString.stringify(params,{
+  skipEmptyString: true,
+  skipNull: true,
+  });
   //debug
-  console.log("query: ", query);
-  const res = await fetch(`${API_URL}/todos/?${query}`, {
+  console.log("query:", query || "(no query params)");
+  //queryの有無によってURLのパラメータを決める
+  const url = query ? `${API_URL}/todos?${query}`: `${API_URL}/todos`;
+  const res = await fetch(url, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

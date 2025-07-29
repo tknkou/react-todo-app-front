@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-export const serchTodoSchema = z.object({
-  title: z.string().min(1, "title is required").max(50, "Title must be less than 50 charactars"),
+export const searchTodoSchema = z.object({
+  title: z.string().max(50, "Title must be less than 50 charactars").optional(),
   description: z.string().max(100, "Description must be less than 100 charactars").optional(),
   dueDate_from: z
     .string()
@@ -26,7 +26,7 @@ export const serchTodoSchema = z.object({
   completed: z.boolean().optional()
 })
 
-export type SearchTodoParams = z.infer<typeof serchTodoSchema>
+export type SearchTodoParams = z.infer<typeof searchTodoSchema>
 
 export const createTodoSchema = z.object({
   title: z.string().min(1, "Title is required").max(50, "Title must be less than 50 charactars"),

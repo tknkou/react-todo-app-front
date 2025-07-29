@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { Todo } from "../schema/TodoSchema";
 import { CreateTodoSheet } from "./CreateTodoSheet";
 import { EditTodoDialog } from "./EditTodoDialog";
@@ -36,6 +36,9 @@ export function TodoColumn({
   isDeleting,
 }: Props) {
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
+  useEffect(() => {
+    console.log(`[${title}] todos:`, todos);
+  }, [todos]);
 
   const handleCardClick = (todo: Todo) => {
     setSelectedTodo(todo);
