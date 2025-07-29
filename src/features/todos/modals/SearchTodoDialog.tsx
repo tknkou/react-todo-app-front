@@ -79,7 +79,6 @@ export function SearchTodoDialog() {
                       <SelectLabel>Status</SelectLabel>
                       <SelectItem value="in_progress">進行中</SelectItem>
                       <SelectItem value="completed">完了</SelectItem>
-                      <SelectItem value="deleted">削除済み</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
