@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { formatDateToYYYYMMDD } from "@/lib/utils";
 import {
   Dialog,
   DialogContent,
@@ -32,6 +34,8 @@ export function EditTodoDialog({
   onClose: () => void
 }){
   const [selectedStatus, setSelectedStatus] = useState<string>(todo.status);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(todo.dueDate ? new Date(todo.dueDate) : undefined);
+  const [showCalendar, setShowCalendar] = useState<boolean>(false)
   const { register, handleSubmit, setValue, reset, errors, isSubmitting, onSubmit, error } = useEditTodo(todo)
 
   useEffect(() => {
@@ -39,10 +43,11 @@ export function EditTodoDialog({
       reset({
         title: todo.title,
         description: todo.description,
-        due_date: todo.dueDate ? todo.dueDate.toISOString().split("T")[0] : "",
+        due_date: todo.dueDate ? formatDateToYYYYMMDD(todo.dueDate) : "",
         status: todo.status,
       })
       setSelectedStatus(todo.status)
+      setSelectedDate(todo.dueDate ? new Date(todo.dueDate) : undefined); // ← カレンダーに渡す
     }
   }, [open, todo, reset])
 
@@ -98,10 +103,37 @@ export function EditTodoDialog({
               <Input
                 id="dueDate"
                 {...register("due_date")}
+                value={selectedDate ? formatDateToYYYYMMDD(selectedDate) : ""}
+                onClick={()=>{
+                  setShowCalendar((prev)=> !prev)
+                }}
+                readOnly
+                placeholder="Select a date"
               />
               {errors.due_date && (
                 <p className="col-span-4 text-sm text-red-500">{errors.due_date.message}</p>
               )}
+              {showCalendar && (
+                <div>
+                  <Calendar
+                    mode="single"
+                    selected={selectedDate}
+                    className="border rounded-md shadow"
+                    //過去の日付を選択できないようにする
+                    disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                    onSelect={(date) => {
+                      if (date) {
+                        setSelectedDate(date)
+                        //yyyy-mm-ddの形に成形
+                        const formatted = formatDateToYYYYMMDD(date);
+                        setValue("due_date",formatted, { shouldValidate: true })
+                      }
+                      setShowCalendar(false);
+                }}
+              />
+                </div>
+              
+            )}
             </div>
 
             {/* Status */}
@@ -121,7 +153,6 @@ export function EditTodoDialog({
                   <SelectGroup>
                     <SelectLabel>Status</SelectLabel>
                     <SelectItem value="in_progress">進行中</SelectItem>
-                    <SelectItem value="deleted">削除済み</SelectItem>
                     <SelectItem value="completed">完了</SelectItem>
                   </SelectGroup>
                 </SelectContent>
@@ -138,11 +169,9 @@ export function EditTodoDialog({
                 Cancel
               </Button>
             </DialogClose>
-            <DialogClose asChild>
               <Button type="submit">
                 {isSubmitting ? "Saving..." : "Save"}
               </Button>
-            </DialogClose>
           </DialogFooter>
         </form>
       </DialogContent>
