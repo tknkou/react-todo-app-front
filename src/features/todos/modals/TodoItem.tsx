@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
-import {Files} from "lucide-react" 
 import { Check } from "lucide-react";
 import { Undo2 } from 'lucide-react';
+import { TodoDropDownMenu } from "./DropdownMenu";
 import {
   Card,
   CardContent,
@@ -10,8 +10,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
-import { DeleteTodoDialog } from "./DeleteTodoDialog ";
 import type { Todo } from "../schema/TodoSchema";
 
 const TodoItem = ({ 
@@ -38,20 +36,15 @@ const TodoItem = ({
       onClick={onCardClick}
     >
       <CardHeader>
-        {onDuplicateButton && 
-        <Button
-          variant="ghost"
-          size="icon"
-          className="absolute top-4 right-4 hover:bg-gray-300"
-          onClick={(e)=>{
-            e.stopPropagation()
-            onDuplicateButton(todo.id)
-          }}
-        >
-          {/* duplicateボタン */}
-          <Files className="h-4 w-4 "/>
-        </Button>
-      }
+        <div className="absolute top-2 right-5 z-10">
+          <TodoDropDownMenu
+          todo={todo}
+          onDuplicateButton={onDuplicateButton!}
+          onDeleteButton={onDeleteButton!}
+          isDeleting={isDeleting}
+        />
+        </div>
+        
         <CardTitle className="text-blue-500">
           <h3>{todo.title}</h3>
         </CardTitle>
@@ -87,17 +80,10 @@ const TodoItem = ({
               e.stopPropagation()
               onRestoreButton(todo.id)
             }}
-            className="text-sm bg-yellow-500 text-white hover:bg-green-600 hover:text-white"
+            className="text-sm bg-yellow-500 text-white hover:bg-yellow-600 hover:text-white"
           >
             <Undo2/>
           </Button>
-        }
-        {onDeleteButton &&
-          <DeleteTodoDialog
-            todoId={todo.id}
-            onDelete={(id) => {onDeleteButton(id)}}
-            isDeleting={isDeleting}
-          />
         }
       </CardFooter>
     </Card>

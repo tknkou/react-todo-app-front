@@ -15,6 +15,7 @@ export const getAllTodo = async (): Promise<TodoResponse[]> =>{
   if(USE_MOCK) {
     return todos
   }
+  
   const res = await fetch(`${API_URL}/todos`, {
     method: "GET",
     headers: {
@@ -186,6 +187,7 @@ export const duplicateTodo = async (todoID: string): Promise<TodoResponse> =>{
     throw new Error(error.message || "todo duplicate failed")
   }
   const json = await res.json()
+  console.log("duplicate response", res.status, json);
   const parsed = todoResponseSchema.safeParse(json)
   if(!parsed.success) {
     throw new Error("invalid API response ")

@@ -74,6 +74,7 @@ export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
       const duplicatedTodo = convertToTodo(response)
       setTodos((prev) => [...prev, duplicatedTodo])
     } catch (error) {
+      console.log("duplication error", error)
       console.error("Todoの複製に失敗しました", error)
     }
   }

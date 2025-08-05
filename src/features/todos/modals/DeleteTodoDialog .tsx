@@ -1,7 +1,6 @@
-import { useState } from "react"
+
 import {
     Dialog,
-    DialogTrigger,
     DialogContent,
     DialogHeader,
     DialogTitle,
@@ -9,33 +8,22 @@ import {
     DialogDescription,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { Trash2 } from "lucide-react"
 
 export function DeleteTodoDialog({
     todoId,
     onDelete,
     isDeleting,
+    isOpen,
+    onOpenChange,
 }: {
-    todoId: string
-    onDelete: (todoId: string) => void
-    isDeleting: boolean
+    todoId: string,
+    onDelete: (todoId: string) => void,
+    isDeleting: boolean,
+    isOpen: boolean,
+    onOpenChange: (open: boolean)=>void
 }) {
-    const [open, setOpen] = useState(false)
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-                <Button
-                    variant="outline"
-                    size="sm"
-                    className="text-sm px-5 bg-rose-400 hover:bg-rose-500 text-white hover:text-white"
-                    onClick={(e) => {
-                        e.stopPropagation()
-                        setOpen(true)
-                    }}
-                >
-                    <Trash2/>
-                </Button>
-            </DialogTrigger>
+        <Dialog open={isOpen} onOpenChange={onOpenChange}>
             <DialogContent onClick={(e) => e.stopPropagation()}>
                 <DialogHeader>
                     <DialogTitle>
@@ -48,7 +36,7 @@ export function DeleteTodoDialog({
                 <DialogFooter>
                     <Button
                         variant="outline"
-                        onClick={() => setOpen(false)}
+                        onClick={() => onOpenChange(false)}
                         disabled={isDeleting}
                     >
                         Cancel
@@ -57,7 +45,7 @@ export function DeleteTodoDialog({
                         variant="destructive"
                         onClick={async () => {
                             await onDelete(todoId);
-                            setOpen(false)
+                            onOpenChange(false)
                         }}
                     >
                         Delete
