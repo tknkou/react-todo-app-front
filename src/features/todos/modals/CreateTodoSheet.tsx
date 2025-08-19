@@ -23,7 +23,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useCreateTodo } from "../hooks/useTodo"
-
+import { toast } from "sonner"
 export function CreateTodoSheet({
   trigger,
   status,
@@ -34,7 +34,10 @@ export function CreateTodoSheet({
   const [selectedStatus, setSelectedStatus] = useState<string>(status);
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [open, setOpen] = useState(false); 
-  const {register, handleSubmit, setValue, reset, errors, isSubmitting, onSubmit, error} = useCreateTodo(() => {setOpen(false)})
+  const {register, handleSubmit, setValue, reset, errors, isSubmitting, onSubmit, error} = useCreateTodo(() => {
+    toast.success("Todo successfully created ✅");
+    setOpen(false);
+  })
 
   useEffect(()=>{
     if(open) {

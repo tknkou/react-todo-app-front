@@ -8,6 +8,7 @@ import {
     DialogDescription,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
+import { toast } from "sonner"
 
 export function DeleteTodoDialog({
     todoId,
@@ -45,6 +46,7 @@ export function DeleteTodoDialog({
                         variant="destructive"
                         onClick={async () => {
                             await onDelete(todoId);
+                            toast.success("Todo successfully deleted ✅") // 成功通知
                             onOpenChange(false)
                         }}
                     >

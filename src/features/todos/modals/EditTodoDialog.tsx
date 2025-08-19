@@ -24,6 +24,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useEditTodo } from "../hooks/useTodo";
 import type{ Todo, UpdateTodoParams } from "../schema/TodoSchema";
+import { toast } from "sonner";
 export function EditTodoDialog({
   todo,
   open,
@@ -59,6 +60,7 @@ export function EditTodoDialog({
       due_date: input.due_date || undefined,
       status: input.status,
     })
+    toast.success("Todo successflly updated ✅");
     onClose() 
   }
 
@@ -152,8 +154,8 @@ export function EditTodoDialog({
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel>Status</SelectLabel>
-                    <SelectItem value="in_progress">進行中</SelectItem>
-                    <SelectItem value="completed">完了</SelectItem>
+                    <SelectItem value="in_progress">InProgress</SelectItem>
+                    <SelectItem value="completed">Completed</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>

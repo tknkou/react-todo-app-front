@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type{ CreateTodoParams, UpdateTodoParams, Todo, SearchTodoParams } from "../schema/TodoSchema";
 import { createTodoSchema, updateTodoSchema, searchTodoSchema} from "../schema/TodoSchema";
 import { useTodoContext } from "@/contexts/TodoContext";
+import { toast } from "sonner";
 
 export const useCreateTodo = (onSuccess?:()=>void) =>{
   const {createTodo} = useTodoContext();
@@ -97,18 +98,23 @@ export const useUpdateTodo = () => {
     const useDuplicateTodo = async (todoId: string) => {
         const todo = todos.find(t => t.id === todoId)
         if (!todo) return
-
-        const copyTitle = `${todo.title}のコピー`
-
-        if (copyTitle.length > 50) {
-            setError("タイトルが長すぎて複製できません（最大50文字）")
-            return
-        }
-
+        
         try {
-            await duplicateTodo(todoId)
-        } catch (err) {
-            console.error("Todoの複製に失敗しました", err)
+          await duplicateTodo(todoId);
+          toast.success("Todo successfully duplicated ")
+          setError(null); // 成功したらエラークリア
+        } catch (err:any) {
+          console.log(err)
+          // サーバーから返ってきたエラーを表示
+          const message = err?.message|| "Todoの複製に失敗しました";
+          toast.error(message);
+          setError(message);
+          console.error("Duplicate todo failed:", message);
+    
+          // const message =
+          //   err instanceof Error ? err.message : "Todoの複製に失敗しました";
+          // setError(message);
+          // toast.error(message); // toast でエラー表示
         }
     }
 

@@ -70,14 +70,15 @@ export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
 
   const duplicateTodo = async (todoId: string) => {
     try {
-      const response = await duplicateTodoAPI(todoId)
-      const duplicatedTodo = convertToTodo(response)
-      setTodos((prev) => [...prev, duplicatedTodo])
+      const response = await duplicateTodoAPI(todoId);
+      const duplicatedTodo = convertToTodo(response);
+      setTodos((prev) => [...prev, duplicatedTodo]);
     } catch (error) {
-      console.log("duplication error", error)
-      console.error("Todoの複製に失敗しました", error)
+      console.log("duplication error", error);
+      console.error("Todoの複製に失敗しました", error);
+      throw error; // ← ここで再スロー
     }
-  }
+  };
   const deleteTodo = async (todoId: string) => {
     try {
       await deleteTodoAPI(todoId);

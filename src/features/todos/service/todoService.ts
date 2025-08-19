@@ -165,7 +165,7 @@ export const duplicateTodo = async (todoID: string): Promise<TodoResponse> =>{
     const duplicated: TodoResponse = {
       ...original,
       id: Date.now().toString(),
-      title: original.title + "のコピー",
+      title: original.title,
       due_date : null,
       created_at: now,
       updated_at: now,
@@ -182,12 +182,14 @@ export const duplicateTodo = async (todoID: string): Promise<TodoResponse> =>{
       Authorization: `Bearer ${token}`
     },
   })
-  if(!res.ok) {
-    const error = await res.json()
-    throw new Error(error.message || "todo duplicate failed")
-  }
+  
   const json = await res.json()
-  console.log("duplicate response", res.status, json);
+
+  if (!res.ok) {
+    // バックエンドの error フィールドをそのまま投げる
+    throw new Error("Duplicate failed: "+json.error || "Todoの複製に失敗しました")
+  }
+
   const parsed = todoResponseSchema.safeParse(json)
   if(!parsed.success) {
     throw new Error("invalid API response ")

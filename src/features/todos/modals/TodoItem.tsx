@@ -36,7 +36,7 @@ const TodoItem = ({
       onClick={onCardClick}
     >
       <CardHeader>
-        <div className="absolute top-2 right-5 z-10">
+        <div className="absolute top-2 right-2 z-10">
           <TodoDropDownMenu
           todo={todo}
           onDuplicateButton={onDuplicateButton!}
@@ -45,11 +45,11 @@ const TodoItem = ({
         />
         </div>
         
-        <CardTitle className="text-blue-500">
-          <h3>{todo.title}</h3>
+        <CardTitle className="text-blue-500 w-full flex flex-col mr-1">
+          <h3 className="break-words break-all pr-5">{todo.title}</h3>
         </CardTitle>
         <CardDescription>
-          <p>{todo.description}</p>
+          <p className="break-words break-all pr-5">{todo.description}</p>
         </CardDescription>
       </CardHeader>
       {todo.dueDate && (
@@ -57,7 +57,7 @@ const TodoItem = ({
           <p>Due: {new Date(todo.dueDate).toLocaleDateString()}</p>
         </CardContent>
       )}
-      <CardFooter className=" absolute bottom-2 right-2 gap-2">
+      <CardFooter className=" absolute bottom-2 right-1 gap-1 px-1">
         {onCompleteButton &&
           <Button
             variant="outline"

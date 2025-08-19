@@ -53,7 +53,7 @@ export function SearchTodoDialog() {
             <Input
               id="title"
               {...register("title")}
-              placeholder="例: タスク名"
+              placeholder="ex): Task1"
             />
             {errors.title && (
               <p className="text-red-500 text-sm">{errors.title.message}</p>
@@ -72,13 +72,13 @@ export function SearchTodoDialog() {
                   value={field.value}
                 >
                   <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="ステータスを選択" />
+                    <SelectValue placeholder="Select a status" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>Status</SelectLabel>
-                      <SelectItem value="in_progress">進行中</SelectItem>
-                      <SelectItem value="completed">完了</SelectItem>
+                      <SelectItem value="in_progress">InProgress</SelectItem>
+                      <SelectItem value="completed">Completed</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>

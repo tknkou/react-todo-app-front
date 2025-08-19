@@ -11,11 +11,13 @@ import { Ellipsis } from 'lucide-react';
 import { DeleteTodoDialog } from "./DeleteTodoDialog ";
 import type { Todo } from "../schema/TodoSchema";
 import { useState } from "react";
+
 export const TodoDropDownMenu = ({
   todo,
   onDeleteButton,
   onDuplicateButton,
   isDeleting,
+  
 }:{
   todo : Todo,
   onDeleteButton : (todoID : string) => void,
@@ -55,6 +57,7 @@ export const TodoDropDownMenu = ({
       isOpen={open}
       isDeleting={isDeleting}
       onOpenChange={setOpen}
+      
     />
     </>
     
