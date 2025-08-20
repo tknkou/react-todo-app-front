@@ -5,6 +5,7 @@ import { EditTodoDialog } from "./EditTodoDialog";
 import { NewTodoButton } from "@/shared/button/NewTodoButton";
 import { cn } from "@/lib/utils";
 import TodoItem from "./TodoItem";
+import { Loader } from "lucide-react";
 
 type Props = {
   title: string;
@@ -19,6 +20,7 @@ type Props = {
   onDeleteButton?: (todoId: string) => void;
   onRestoreButton?: (todoId: string) => void;
   isDeleting: boolean;
+  isLoading: boolean;
 };
 
 export function TodoColumn({
@@ -34,6 +36,7 @@ export function TodoColumn({
   onDeleteButton,
   onRestoreButton,
   isDeleting,
+  isLoading,
 }: Props) {
   const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
   useEffect(() => {
@@ -67,7 +70,11 @@ export function TodoColumn({
         <div className="flex items-center mx-5 space-x-2">
           <div className={`w-3 h-3 rounded-full ${color}`}></div>
           <h2 className="font-medium">{title}</h2>
-          <span className="text-gray-500 ml-2">{count}</span>
+          {isLoading ? (
+            <Loader className="w-5 h-5 animate-spin text-gray-500 ml-2" />
+          ) : (
+            <span className="text-gray-500 ml-2">{count}</span>
+          )}
         </div>
         <CreateTodoSheet
           trigger={<NewTodoButton onClick={() => {}} className={cn(hoverColor)} />}

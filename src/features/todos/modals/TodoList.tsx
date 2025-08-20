@@ -4,7 +4,7 @@ import { useDeleteTodo } from "../hooks/useTodo";
 import type { Todo } from "../schema/TodoSchema";
 import { LogoutButton } from "@/shared/button/LogoutButton";
 import { SearchTodoDialog } from "./SearchTodoDialog";
-
+import { useTodoContext } from "@/contexts/TodoContext";
 type Props = {
     todos: Todo[]
 }
@@ -13,6 +13,7 @@ export default function TodoList({ todos }: Props) {
     const { useDuplicateTodo, useMoveCompleteTodo, useMoveInProgressTodo } = useUpdateTodo()
     const {handleDelete, isDeleting} = useDeleteTodo()
     const username = localStorage.getItem("username");
+    const {isLoading} = useTodoContext();
 
     return (
         <>  
@@ -41,6 +42,7 @@ export default function TodoList({ todos }: Props) {
                     onCompleteButton={useMoveCompleteTodo}
                     onDeleteButton={handleDelete}
                     isDeleting={isDeleting}
+                    isLoading={isLoading}
                 />
 
                 {/* 完了列 */}
@@ -56,6 +58,7 @@ export default function TodoList({ todos }: Props) {
                     onDeleteButton={handleDelete}
                     onRestoreButton={useMoveInProgressTodo}
                     isDeleting={isDeleting}
+                    isLoading={isLoading}
                 />
 
             </div>

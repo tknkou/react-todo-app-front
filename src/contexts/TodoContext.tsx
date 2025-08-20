@@ -10,21 +10,24 @@ interface TodoContextType {
   updateTodo: (updatedTodo: Todo) => Promise<void>
   duplicateTodo: (todoId: string) => Promise<void>
   deleteTodo: (todoId: string) => Promise<void>
-  
+  isLoading: boolean; 
 }
 
 const TodoContext = createContext<TodoContextType | undefined>(undefined)
 
 export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
   const [todos, setTodos] = useState<Todo[]>([])
-
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const fetchAllTodos = async () => {
+    setIsLoading(true);
     try {
       const response = await getAllTodo()
       const todos = response.map(convertToTodo)
       setTodos(todos)
     } catch (error) {
       console.error("Todoの取得に失敗しました", error)
+    }finally{
+      setIsLoading(false);
     }
   }
 
@@ -89,7 +92,7 @@ export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <TodoContext.Provider value={{ todos, fetchAllTodos, fetchTodosWithFilters, createTodo, updateTodo, duplicateTodo, deleteTodo }}>
+    <TodoContext.Provider value={{ todos, fetchAllTodos, fetchTodosWithFilters, createTodo, updateTodo, duplicateTodo, deleteTodo, isLoading }}>
       {children}
     </TodoContext.Provider>
   )
