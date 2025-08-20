@@ -29,8 +29,19 @@ const TodoItem = ({
   onCardClick: () => void
   isDeleting: boolean
  }) => {
-  const isPastDue =
-    todo.dueDate && new Date(todo.dueDate) < new Date(); // 今日より前か
+
+  const isPastDue =()=>{
+    if(!todo.dueDate) return false;
+
+    const due = new Date(todo.dueDate);
+    const today = new Date();
+
+    // 今日の0時0分0秒にリセット
+    today.setHours(0, 0, 0, 0);
+    due.setHours(0, 0, 0, 0);
+    return due < today; //昨日以前ならtrue
+  }
+   
 
   return (
     <Card className="
@@ -57,7 +68,7 @@ const TodoItem = ({
       </CardHeader>
       {todo.dueDate && (
         <CardContent>
-          <p className={isPastDue ? "text-red-500 font-bold" : "text-black"}>
+          <p className={isPastDue() ? "text-red-500 font-bold" : "text-black"}>
             Due: {new Date(todo.dueDate).toLocaleDateString()}
           </p>
   </CardContent>
