@@ -36,6 +36,19 @@ export const createTodoSchema = z.object({
     .refine(val => val === "" || !isNaN(Date.parse(val)), {
       message: "input valid date",
     })
+    .refine(val => {
+      if (val === "") return true; // 空文字はOK（任意入力の場合）
+      const inputDate = new Date(val);
+      const today = new Date();
+
+      // 今日の0時を基準にする
+      today.setHours(0, 0, 0, 0);
+      inputDate.setHours(0, 0, 0, 0);
+
+      return inputDate >= today;
+    }, {
+      message: "Due date must be today or later",
+    })
     .optional(),
 
   status: z.enum(["in_progress", "completed"], {

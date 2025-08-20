@@ -34,7 +34,7 @@ export function CreateTodoSheet({
   const [selectedStatus, setSelectedStatus] = useState<string>(status);
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [open, setOpen] = useState(false); 
-  const {register, handleSubmit, setValue, reset, errors, isSubmitting, onSubmit, error} = useCreateTodo(() => {
+  const {register, handleSubmit, setValue, reset, errors, isSubmitting, onSubmit, error, onError} = useCreateTodo(() => {
     toast.success("Todo successfully created ✅");
     setOpen(false);
   })
@@ -65,7 +65,7 @@ export function CreateTodoSheet({
             Create new todo here. Title and status must be filled and Description & DueDate are optional
           </SheetDescription>
         </SheetHeader>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit, onError)}>
           <div className="grid flex-1 auto-rows-min gap-6 px-4">
           <div className="grid gap-3">
             {/* Title */}
@@ -91,7 +91,8 @@ export function CreateTodoSheet({
             <Label htmlFor="due_date">Due Date</Label>
             <Input 
               id="due_date" 
-              type="date" 
+              type="date"
+              min={new Date().toISOString().split("T")[0]} 
               {...register("due_date")}
             />
             {errors.due_date && (

@@ -20,6 +20,13 @@ export const useCreateTodo = (onSuccess?:()=>void) =>{
     resolver: zodResolver(createTodoSchema)
   })
 
+  // バリデーション失敗時に toast 表示
+  const onError = (formErrors: typeof errors) => {
+    if (formErrors.title) toast.error(formErrors.title.message);
+    if (formErrors.description) toast.error(formErrors.description.message);
+    if (formErrors.due_date) toast.error(formErrors.due_date.message);
+  };
+
   const onSubmit = async (input: CreateTodoParams) => {
     try{
       const payload = {
@@ -27,11 +34,15 @@ export const useCreateTodo = (onSuccess?:()=>void) =>{
         due_date: input.due_date? input.due_date:undefined,
       }
       await createTodo(payload)
+      setError(null);
       if(onSuccess){
         onSuccess()
       }
-    }catch(err){
-      setError("failed to create Todo")
+    }catch(err: any){
+      const message = err?.message || "Failed to create Todo";
+      toast.error(message);
+      setError(message);
+      console.error("Create todo failed:", message);
     }
   }
 
@@ -43,7 +54,8 @@ export const useCreateTodo = (onSuccess?:()=>void) =>{
     errors,
     isSubmitting,
     onSubmit,
-    error
+    error,
+    onError,
   }
 }
 

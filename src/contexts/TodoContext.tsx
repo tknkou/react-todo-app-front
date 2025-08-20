@@ -43,6 +43,7 @@ export const TodoProvider = ({ children }: { children: React.ReactNode }) => {
 
   const createTodo = async (params: CreateTodoParams) => {
     try {
+      console.log("createTodo params:", params); // ← ここに追加
       const response = await createTodoAPI(params)
       const newTodo = convertToTodo(response)
       setTodos((prev) => [...prev, newTodo])
