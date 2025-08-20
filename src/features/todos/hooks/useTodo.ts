@@ -129,6 +129,7 @@ export const useUpdateTodo = () => {
             };
             await updateTodo(updatedTodo);
             await fetchAllTodos()
+            toast.success("Todo successfully completed ✅")
         } catch (err) {
             console.error("Todoステータス更新に失敗しました", err)
         }
@@ -149,6 +150,7 @@ export const useUpdateTodo = () => {
             
             await updateTodo(updatedTodo);
             await fetchAllTodos()
+            toast.success("Status successfully changed to \"InPrpgress\"✅")
         } catch (err) {
             console.error("Todoステータス更新に失敗しました", err)
         }
