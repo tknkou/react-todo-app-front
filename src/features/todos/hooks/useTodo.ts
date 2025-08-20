@@ -110,11 +110,6 @@ export const useUpdateTodo = () => {
           toast.error(message);
           setError(message);
           console.error("Duplicate todo failed:", message);
-    
-          // const message =
-          //   err instanceof Error ? err.message : "Todoの複製に失敗しました";
-          // setError(message);
-          // toast.error(message); // toast でエラー表示
         }
     }
 
@@ -122,10 +117,14 @@ export const useUpdateTodo = () => {
         const todo = todos.find(t => t.id === todoId)
         if (!todo) return 
 
+        //過去のTodoかチェック
+        const isPastDue = todo.dueDate && new Date(todo.dueDate) < new Date();
+
         try {
             const updatedTodo: Todo = {
               ...todo,
               status: "completed",
+              dueDate: isPastDue ? null : todo.dueDate, // 過去なら null
               completedAt: new Date(), // ← Date型として渡す
             };
             await updateTodo(updatedTodo);
@@ -141,9 +140,13 @@ export const useUpdateTodo = () => {
       try {
             const updatedTodo: Todo = {
               ...todo,
+              dueDate: null,
               status: "in_progress",
               completedAt: null, 
             };
+
+            console.log("送信するデータ:", updatedTodo);
+            
             await updateTodo(updatedTodo);
             await fetchAllTodos()
         } catch (err) {

@@ -29,6 +29,9 @@ const TodoItem = ({
   onCardClick: () => void
   isDeleting: boolean
  }) => {
+  const isPastDue =
+    todo.dueDate && new Date(todo.dueDate) < new Date(); // 今日より前か
+
   return (
     <Card className="
       w-full max-w-sm relative transition hover:bg-gray-100 
@@ -54,8 +57,10 @@ const TodoItem = ({
       </CardHeader>
       {todo.dueDate && (
         <CardContent>
-          <p>Due: {new Date(todo.dueDate).toLocaleDateString()}</p>
-        </CardContent>
+          <p className={isPastDue ? "text-red-500 font-bold" : "text-black"}>
+            Due: {new Date(todo.dueDate).toLocaleDateString()}
+          </p>
+  </CardContent>
       )}
       <CardFooter className=" absolute bottom-2 right-1 gap-1 px-1">
         {onCompleteButton &&
