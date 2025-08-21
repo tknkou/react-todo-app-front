@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
+import { getTodayStr, isPastDate, formatDateToStr } from "@/lib/utils"
 import {
   Select,
   SelectContent,
@@ -92,7 +93,7 @@ export function CreateTodoSheet({
             <Input 
               id="due_date" 
               type="date"
-              min={new Date().toISOString().split("T")[0]} 
+              min={getTodayStr()} 
               {...register("due_date")}
             />
             {errors.due_date && (
@@ -103,14 +104,13 @@ export function CreateTodoSheet({
                 mode="single"
                 className="border rounded-md shadow"
                 //過去の日付を選択できないようにする
-                disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                disabled={(date)=>isPastDate(date)}
                 onSelect={(date) => {
-                  if (date) {
-                    //yyyy-mm-ddの形に成形
-                    setValue("due_date", date.toISOString().split("T")[0], { shouldValidate: true })
-}
-                  setShowCalendar(false);
-                }}
+                  if (date) 
+                    setValue("due_date",formatDateToStr(date),
+                   {shouldValidate: true });
+                    setShowCalendar(false);
+                  }}
               />
             )}
           </div>
@@ -130,8 +130,8 @@ export function CreateTodoSheet({
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel>Status</SelectLabel>
-                    <SelectItem value="in_progress">進行中</SelectItem>
-                    <SelectItem value="completed">完了</SelectItem>
+                    <SelectItem value="in_progress">InProgress</SelectItem>
+                    <SelectItem value="completed">Completed</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
